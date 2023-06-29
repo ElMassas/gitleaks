@@ -74,6 +74,7 @@ func main() {
 	// TODO figure out what makes sense for GCP
 	// configRules = append(configRules, rules.GCPServiceAccount())
 	configRules = append(configRules, rules.GCPAPIKey())
+	configRules = append(configRules, rules.GCPOAuthClientSecret())
 	configRules = append(configRules, rules.GitHubPat())
 	configRules = append(configRules, rules.GitHubFineGrainedPat())
 	configRules = append(configRules, rules.GitHubOauth())
@@ -82,6 +83,8 @@ func main() {
 	configRules = append(configRules, rules.GitlabPat())
 	configRules = append(configRules, rules.GitlabPipelineTriggerToken())
 	configRules = append(configRules, rules.GitlabRunnerRegistrationToken())
+	configRules = append(configRules, rules.GitlabRunnerAuthToken())
+	configRules = append(configRules, rules.GitlabFeedToken())
 	configRules = append(configRules, rules.GitterAccessToken())
 	configRules = append(configRules, rules.GrafanaApiKey())
 	configRules = append(configRules, rules.GrafanaCloudApiToken())

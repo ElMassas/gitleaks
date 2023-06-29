@@ -23,9 +23,10 @@ const (
 
 	// boundaries for the secret
 	// \x60 = `
-	secretPrefixUnique = `\b(`
-	secretPrefix       = `(?:'|\"|\s|=|\x60){0,5}(`
-	secretSuffix       = `)(?:['|\"|\n|\r|\s|\x60|;]|$)`
+	secretPrefixUnique      = `\b(`
+	secretPrefix            = `(?:'|\"|\s|=|\x60){0,5}(`
+	secretSuffix            = `)(?:[-_]|['\"|\n|\r|\s|\x60|;]|$)`
+	secretSpecialCharacters = `)([$&+,:;=?@#|'<>.-^*()%!]+`
 )
 
 func generateSemiGenericRegex(identifiers []string, secretRegex string) *regexp.Regexp {
@@ -37,6 +38,20 @@ func generateSemiGenericRegex(identifiers []string, secretRegex string) *regexp.
 	sb.WriteString(operator)
 	sb.WriteString(secretPrefix)
 	sb.WriteString(secretRegex)
+	sb.WriteString(secretSuffix)
+	return regexp.MustCompile(sb.String())
+}
+
+func generateGenericRegex(identifiers []string, secretRegex string) *regexp.Regexp {
+	var sb strings.Builder
+	sb.WriteString(caseInsensitive)
+	sb.WriteString(identifierPrefix)
+	sb.WriteString(strings.Join(identifiers, "|"))
+	sb.WriteString(identifierSuffix)
+	sb.WriteString(operator)
+	sb.WriteString(secretPrefix)
+	sb.WriteString(secretRegex)
+	sb.WriteString(secretSpecialCharacters)
 	sb.WriteString(secretSuffix)
 	return regexp.MustCompile(sb.String())
 }

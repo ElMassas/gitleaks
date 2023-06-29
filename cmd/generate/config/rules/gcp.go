@@ -42,3 +42,22 @@ func GCPAPIKey() *config.Rule {
 	}
 	return validate(r, tps, nil)
 }
+
+func GCPOAuthClientSecret() *config.Rule {
+	// define rule
+	r := config.Rule{
+		RuleID:      "gcp-oauth-client-secret",
+		Description: "GCP OAuth client secrets can be misused to spoof your application",
+		Regex:       generateUniqueTokenRegex(`GOCSPX-[a-zA-Z0-9_-]{28}`),
+		SecretGroup: 1,
+		Keywords: []string{
+			"GOCSPX-",
+		},
+	}
+
+	// validate
+	tps := []string{
+		generateSampleSecret("gcp", secrets.NewSecret(`GOCSPX-[a-zA-Z0-9_-]{28}`)),
+	}
+	return validate(r, tps, nil)
+}
